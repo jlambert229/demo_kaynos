@@ -1,0 +1,105 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+[dev]
+  command = "npx vite"
+  targetPort = 5173
+  autoLaunch = false
+
+[[redirects]]
+  from = "/api/signup"
+  to = "/.netlify/functions/signup"
+  status = 200
+
+[[redirects]]
+  from = "/api/tenant/*"
+  to = "/.netlify/functions/tenant"
+  status = 200
+
+[[redirects]]
+  from = "/api/tenant"
+  to = "/.netlify/functions/tenant"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/auth"
+  status = 200
+
+[[redirects]]
+  from = "/api/members/*"
+  to = "/.netlify/functions/members"
+  status = 200
+
+[[redirects]]
+  from = "/api/sessions/*"
+  to = "/.netlify/functions/sessions"
+  status = 200
+
+[[redirects]]
+  from = "/api/classes/*"
+  to = "/.netlify/functions/classes"
+  status = 200
+
+[[redirects]]
+  from = "/api/notes/*"
+  to = "/.netlify/functions/notes"
+  status = 200
+
+[[redirects]]
+  from = "/api/school/*"
+  to = "/.netlify/functions/school"
+  status = 200
+
+[[redirects]]
+  from = "/api/school"
+  to = "/.netlify/functions/school"
+  status = 200
+
+[[redirects]]
+  from = "/api/support"
+  to = "/.netlify/functions/support"
+  status = 200
+
+[[redirects]]
+  from = "/api/support/*"
+  to = "/.netlify/functions/support"
+  status = 200
+
+[[redirects]]
+  from = "/api/video/*"
+  to = "/.netlify/functions/video"
+  status = 200
+
+[[redirects]]
+  from = "/api/video"
+  to = "/.netlify/functions/video"
+  status = 200
+
+[[redirects]]
+  from = "/api/health"
+  to = "/.netlify/functions/health"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
