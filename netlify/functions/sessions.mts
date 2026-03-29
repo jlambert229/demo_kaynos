@@ -1,5 +1,5 @@
 import type { Context } from "@netlify/functions";
-import { SESSIONS, SESSION_NOTES, USERS, SCHOOL } from "./lib/demo-data.mts";
+import { SESSIONS, SESSION_NOTES, USERS, SCHOOL, DEFAULT_USER, IS_STUDENT_DEMO } from "./lib/demo-data.mts";
 import { json } from "./lib/middleware.mts";
 import { createRouter, withErrorHandling } from "./lib/router.mts";
 
@@ -9,7 +9,9 @@ router.get("/", async (req) => {
   const url = new URL(req.url);
   const studentId = url.searchParams.get("studentId");
   let sessions = [...SESSIONS];
-  if (studentId) {
+  if (IS_STUDENT_DEMO) {
+    sessions = sessions.filter((s) => s.student_id === DEFAULT_USER.id);
+  } else if (studentId) {
     sessions = sessions.filter((s) => s.student_id === studentId);
   }
   const allTags = [...new Set(sessions.flatMap((s) => s.tags || []))];

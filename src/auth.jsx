@@ -3,38 +3,31 @@ import { api } from "./api";
 
 const AuthContext = createContext(null);
 
-const DEMO_USER = {
-  id: "b1b2c3d4-0001-4000-8000-000000000001",
-  name: "Coach Marcus Rivera",
-  email: "coach.marcus@shjj.com",
-  role: "admin",
-  schoolId: "a1b2c3d4-0001-4000-8000-000000000001",
-  schoolName: "South Houston Jiu-Jitsu",
-  emailNotifications: true,
-  createdAt: "2025-06-15T10:00:00Z",
-};
-
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(DEMO_USER);
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api.auth.me()
       .then((data) => setUser(data.user))
-      .catch(() => setUser(DEMO_USER));
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async () => {
-    setUser(DEMO_USER);
-    return DEMO_USER;
+    const data = await api.auth.login({});
+    setUser(data.user);
+    return data.user;
   };
 
   const tenantLogin = async () => {
-    return DEMO_USER;
+    return user;
   };
 
   const logout = async () => {
-    setUser(DEMO_USER);
+    // In demo mode, just re-fetch the demo user
+    const data = await api.auth.me();
+    setUser(data.user);
   };
 
   const isTenantAdmin = false;

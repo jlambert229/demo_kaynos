@@ -32,7 +32,7 @@ function LazyFallback() {
 function ProtectedLayout() {
   const { user, loading } = useAuth();
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="app app-loading-shell">
         <PageLoadingSkeleton />
